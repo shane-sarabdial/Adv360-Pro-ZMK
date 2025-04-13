@@ -69,7 +69,8 @@
 
             #binding-cells = <2>;
             hold-trigger-key-positions = <65 70>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <300>;
+            flavor = "balanced";
         };
 
         thumb2: thumb2 {
