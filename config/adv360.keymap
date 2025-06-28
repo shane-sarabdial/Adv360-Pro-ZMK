@@ -83,6 +83,13 @@
             hold-trigger-key-positions = <66>;
             flavor = "tap-preferred";
         };
+
+        snip: snip {
+            compatible = "zmk,behavior-tap-dance";
+            label = "SNIP";
+            #binding-cells = <0>;
+            bindings = <&screenshot>;
+        };
     };
 
     combos {
@@ -109,10 +116,28 @@
             label = "RDO";
         };
 
+        task_man: task_man {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LC(LS(ESCAPE))>;
+            label = "TASK_MAN";
+        };
+
         screenshot: screenshot {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LG(LS(S))>;
+            bindings =
+                <&macro_press>,
+                <&kp LEFT_WIN>,
+                <&macro_press>,
+                <&kp LEFT_SHIFT>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_release>,
+                <&kp LEFT_SHIFT>,
+                <&macro_release>,
+                <&kp LEFT_WIN>;
+
             label = "SCREENSHOT";
         };
     };
@@ -123,11 +148,11 @@
         default_layer {
             display-name = "Base";
             bindings = <
-&kp EQUAL   &kp N1     &kp N2    &kp N3    &kp N4            &kp N5  &tog 1                                                                           &mo 3          &kp N6  &kp N7  &kp N8     &kp N9    &kp N0    &kp MINUS
-&kp ESCAPE  &kp Q      &kp W     &kp E     &kp R             &kp T   &kp CAPS                                                                         &none          &kp Y   &kp U   &kp I      &kp O     &kp P     &kp BSLH
-&kp TAB     &kp A      &kp S     &kp D     &layerswitch 3 F  &kp G   &kp TAB               &kp LCTRL   &kp LALT              &kp LGUI      &kp TAB    &kp BACKSPACE  &kp H   &kp J   &kp K      &kp L     &kp SEMI  &kp SQT
-&kp LSHFT   &kp Z      &kp X     &kp C     &kp V             &kp B                                     &kp PERIOD            &kp QUESTION                            &kp N   &kp M   &kp COMMA  &kp DOT   &kp FSLH  &kp RSHFT
-&mo 2       &kp GRAVE  &kp CAPS  &kp LEFT  &kp RIGHT                 &layerswitch 2 SPACE  &kp ESCAPE  &kp LEFT_CONTROL      &tog 1        &kp ENTER  &kp BACKSPACE          &kp UP  &kp DOWN   &kp LBKT  &kp RBKT  &kp DELETE
+&kp EQUAL   &kp N1     &kp N2    &kp N3    &kp N4            &kp N5  &tog 1                                                                            &mo 3          &kp N6  &kp N7  &kp N8     &kp N9    &kp N0    &kp MINUS
+&kp ESCAPE  &kp Q      &kp W     &kp E     &kp R             &kp T   &kp CAPS                                                                          &snip          &kp Y   &kp U   &kp I      &kp O     &kp P     &kp BSLH
+&kp TAB     &kp A      &kp S     &kp D     &layerswitch 3 F  &kp G   &kp TAB               &kp LCTRL   &kp LALT              &kp LGUI       &kp TAB    &kp DELETE     &kp H   &kp J   &kp K      &kp L     &kp SEMI  &kp SQT
+&kp LSHFT   &kp Z      &kp X     &kp C     &kp V             &kp B                                     &kp PERIOD            &tog 1                                   &kp N   &kp M   &kp COMMA  &kp DOT   &kp FSLH  &kp RSHFT
+&mo 2       &kp GRAVE  &kp CAPS  &kp LEFT  &kp RIGHT                 &layerswitch 2 SPACE  &kp ESCAPE  &kp LEFT_CONTROL      &kp RIGHT_ALT  &kp ENTER  &kp BACKSPACE          &kp UP  &kp DOWN   &kp LBKT  &kp RBKT  &kp DELETE
             >;
         };
 
@@ -145,11 +170,11 @@
         fn {
             display-name = "Fn";
             bindings = <
-&kp F1  &kp F2        &kp F3  &kp F4            &kp F5             &kp F6     &tog 1                                               &kp C_MUTE       &kp F7      &kp F8          &kp F9           &kp F10  &kp F11  &kp F12
-&trans  &kp LEFT_WIN  &trans  &trans            &kp QUESTION       &kp TILDE  &kp C_VOLUME_UP                                      &kp C_VOLUME_UP  &kp SLASH   &kp BACKSLASH   &sm3             &rdo     &trans   &trans
-&trans  &trans        &trans  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE  &kp C_VOL_DN     &trans  &trans      &trans  &trans  &kp C_VOL_DN     &kp PERIOD  &kp LEFT_BRACE  &kp RIGHT_BRACE  &trans   &trans   &trans
-&trans  &trans        &trans  &trans            &trans             &trans                              &trans      &trans                           &trans      &trans          &trans           &trans   &trans   &trans
-&trans  &trans        &trans  &trans            &trans                        &trans           &trans  &trans      &trans  &trans  &trans                       &trans          &trans           &trans   &trans   &trans
+&kp F1     &kp F2        &kp F3  &kp F4            &kp F5             &kp F6     &tog 1                                      &kp C_MUTE       &kp F7      &kp F8          &kp F9           &kp F10  &kp F11  &kp F12
+&task_man  &kp LEFT_WIN  &trans  &trans            &kp QUESTION       &kp TILDE  &sm3                                        &kp C_VOLUME_UP  &kp SLASH   &kp BACKSLASH   &sm3             &rdo     &trans   &trans
+&trans     &trans        &trans  &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &kp GRAVE  &rdo    &trans  &trans      &trans  &trans  &kp C_VOL_DN     &kp PERIOD  &kp LEFT_BRACE  &kp RIGHT_BRACE  &trans   &trans   &trans
+&trans     &trans        &trans  &trans            &trans             &trans                     &trans      &trans                           &trans      &trans          &trans           &trans   &trans   &trans
+&trans     &trans        &trans  &trans            &trans                        &trans  &trans  &trans      &trans  &trans  &trans                       &trans          &trans           &trans   &trans   &trans
             >;
         };
 
